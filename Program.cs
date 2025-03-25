@@ -27,33 +27,34 @@ namespace MovieLibrary
             int userChoice = GetUserInput();
 
 
-            while (userChoice != 4)
+            while (true)
             {
-
-                if (userChoice == 1)
+                switch (userChoice)
                 {
-                    AddMovie(1);
-                }
 
-                else if (userChoice == 2)
-                {
-                    DeleteMovie();
-                }
+                    case 1:
+                        AddMovie(1);
+                        break;
 
-                else if (userChoice == 3)
-                {
-                    ViewMovieRecommendations();
-                }
+                    case 2:
+                        DeleteMovie();
+                        break;
 
-                else
-                {
-                    Console.WriteLine("Invalid Choice. Please Choose from 1-4 only.");
+                    case 3:
+                        ViewMovieRecommendations();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("End. Thanks!!!!");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid Input. Please enter between 1-4 to access.");
+                        break;
                 }
                
                 DisplayMenu();
                 userChoice = GetUserInput();
             }
-                 Console.WriteLine("End. Thanks!!!!");
         }
 
 
