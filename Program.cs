@@ -27,7 +27,7 @@ namespace MovieLibrary
             int userChoice = GetUserInput();
 
 
-            while (true)
+            while (userChoice != 4)
             {
                 switch (userChoice)
                 {
@@ -44,16 +44,15 @@ namespace MovieLibrary
                         ViewMovieRecommendations();
                         break;
 
-                    case 4:
-                        Console.WriteLine("End. Thanks!!!!");
-                        return;
+                    case 4:                        
+                        break;
                     default:
                         Console.WriteLine("Invalid Input. Please enter between 1-4 to access.");
                         break;
-                }
-               
+                }      
                 DisplayMenu();
                 userChoice = GetUserInput();
+                Console.WriteLine("End. Thanks!!!!");
             }
         }
 
