@@ -49,12 +49,15 @@ namespace MovieLibrary
                     default:
                         Console.WriteLine("Invalid Input. Please enter between 1-4 to access.");
                         break;
-                }      
+                }
+
                 DisplayMenu();
                 userChoice = GetUserInput();
-                Console.WriteLine("End. Thanks!!!!");
             }
+            Console.WriteLine("End. Thanks!!!!");
+
         }
+
 
 
             static void DisplayMenu()
