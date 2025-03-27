@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
+using MovieLibraryBusinessDataLogic;
 
 namespace MovieLibrary
 {
     internal class Program
     {
 
-        static List<string> movieList = new List<string>();
         static string[] MenuChoices =
                {
                 "[1] Add Movie",
@@ -33,7 +33,7 @@ namespace MovieLibrary
                 {
 
                     case 1:
-                        AddMovie(1);
+                        AddMovie();
                         break;
 
                     case 2:
@@ -44,7 +44,7 @@ namespace MovieLibrary
                         ViewMovieRecommendations();
                         break;
 
-                    case 4:                        
+                    case 4:
                         break;
                     default:
                         Console.WriteLine("Invalid Input. Please enter between 1-4 to access.");
@@ -60,87 +60,86 @@ namespace MovieLibrary
 
 
 
-            static void DisplayMenu()
+        static void DisplayMenu()
+        {
+            Console.WriteLine("\n-------------");
+            Console.WriteLine("\nMain Menu");
+            foreach (var choice in MenuChoices)
+        {
+            Console.WriteLine(choice);
+        }
+        }
+
+        static int GetUserInput()
+        {
+            Console.Write("\nUser Choice: ");
+            int userInput = Convert.ToInt16(Console.ReadLine());
+            return userInput;
+        }
+
+
+        //Process
+        static void AddMovie()
+        {
+            string addMoreMovie;
+            do
             {
-                Console.WriteLine("\n-------------");
-                Console.WriteLine("\nMain Menu");
-                foreach (var choice in MenuChoices)
+                Console.Write("\nAdd movie title: ");
+                string addMovie = Console.ReadLine();
+                Console.WriteLine(addMovie + " Added Successfully!!!");
+                MovieLibraryProcess.AddMovie(addMovie);
+                Console.Write("\nDo you want to add another movie?(Yes/No):  ");
+                addMoreMovie = Console.ReadLine().ToLower();
+            }
+            while (addMoreMovie == "yes");
+
+        }
+
+
+        //Process
+        static void DeleteMovie()
+        {
+            string deleteAgain;
+            do
+            {
+                Console.Write("\nEnter movie title to delete: ");
+                string deleteMovie = Console.ReadLine();
+
+                if (MovieLibraryProcess.DeleteMovie(deleteMovie))
                 {
-                    Console.WriteLine(choice);
+                    Console.WriteLine(deleteMovie + " Deleted Successfully!!!");
+                }
+
+                else if (!MovieLibraryProcess.DeleteMovie(deleteMovie))
+                {
+                    Console.WriteLine(deleteMovie + " is not on the list.");
+                }
+
+                Console.Write("\nDo you want to delete another movie?(Yes/No): ");
+                deleteAgain = Console.ReadLine().ToLower();
+            }
+            while (deleteAgain == "yes");
+        }
+
+
+        static void ViewMovieRecommendations()
+        {
+            Console.WriteLine("\nMovie Recommendations:");
+
+            if (MovieLibraryProcess.movieList.Count == 0)
+                
+            {
+                Console.WriteLine("\nNo movies available.");
+            }
+            else
+            {
+                foreach (var movie in MovieLibraryProcess.movieList)
+                {
+                    Console.WriteLine(movie);
                 }
             }
-
-            static int GetUserInput() 
-            {
-                Console.Write("\nUser Choice: ");
-                int userInput = Convert.ToInt16(Console.ReadLine());
-
-                return userInput;
-            }
-
-
-            static void AddMovie(int userChoice)
-            {
-                if (userChoice == 1)
-                {
-                    string addMoreMovie;
-                    do
-                    {
-                        Console.Write("\nAdd movie title: ");
-                        string addMovie = Console.ReadLine();
-                        movieList.Add(addMovie);
-                        Console.WriteLine(addMovie + " Added Successfully!!!");
-
-                        Console.Write("\nDo you want to add another movie?(Yes/No):  ");
-                        addMoreMovie = Console.ReadLine().ToLower();
-                    }
-                    while (addMoreMovie == "yes");
-                }
-            }
-
-
-            static void DeleteMovie()
-            {
-                string deleteAgain;
-                do
-                {
-                    Console.Write("\nEnter movie title to delete: ");
-                    string deleteMovie = Console.ReadLine();
-
-                    if (movieList.Contains(deleteMovie))
-                    {
-                        movieList.Remove(deleteMovie);
-                        Console.WriteLine(deleteMovie + " Deleted Successfully!!!");
-                    }
-                    else
-                    {
-                        Console.WriteLine(deleteMovie + " is not on the list.");
-                    }
-
-                    Console.Write("\nDo you want to delete another movie?(Yes/No): ");
-                    deleteAgain = Console.ReadLine().ToLower();
-                }
-                while (deleteAgain == "yes");
-            }
-
-
-            static void ViewMovieRecommendations()
-            {
-                Console.WriteLine("\nMovie Recommendations:");
-
-                if (movieList.Count == 0)
-                {
-                    Console.WriteLine("\nNo movies available.");
-                }
-                else
-                {
-                    foreach (var movie in movieList)
-                    {
-                        Console.WriteLine(movie);
-                    }
-                }
-            }
-        }   
+        }
     }
-    //Jobel Araw
-    //BSIT 2-1
+}
+//Jobel Araw
+//BSIT 2-1
