@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using MovieLibraryBusinessDataLogic;
+using MovieLibraryBDL;
 
 namespace MovieLibrary
 {
@@ -78,7 +78,7 @@ namespace MovieLibrary
         }
 
 
-        //Process
+        
         static void AddMovie()
         {
             string addMoreMovie;
@@ -96,7 +96,7 @@ namespace MovieLibrary
         }
 
 
-        //Process
+        
         static void DeleteMovie()
         {
             string deleteAgain;
