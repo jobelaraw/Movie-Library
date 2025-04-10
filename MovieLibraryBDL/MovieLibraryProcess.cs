@@ -1,10 +1,7 @@
 ﻿using MovieLibraryData;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
