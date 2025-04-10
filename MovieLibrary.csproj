@@ -9,12 +9,19 @@
 
   <ItemGroup>
     <Compile Remove="MovieLibraryBDL\**" />
+    <Compile Remove="MovieLibraryCommon\**" />
+    <Compile Remove="MovieLibraryHandleAccounts\**" />
     <EmbeddedResource Remove="MovieLibraryBDL\**" />
+    <EmbeddedResource Remove="MovieLibraryCommon\**" />
+    <EmbeddedResource Remove="MovieLibraryHandleAccounts\**" />
     <None Remove="MovieLibraryBDL\**" />
+    <None Remove="MovieLibraryCommon\**" />
+    <None Remove="MovieLibraryHandleAccounts\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="MovieLibraryBDL\MovieLibraryBDL.csproj" />
+    <ProjectReference Include="MovieLibraryHandleAccounts\MovieLibraryData.csproj" />
   </ItemGroup>
 
 </Project>
