@@ -1,38 +1,23 @@
-﻿using MovieLibraryData;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using MovieLibraryData;
 
 namespace MovieLibraryBDL
 {
     public class MovieLibraryProcess
     {
-        public static List<Movie> movieList = new List<Movie>();
 
-        public static void AddMovie(string movieTitle, string country, string genre, string releaseDate, string watched)
-        {
-            movieList.Add(new Movie(movieTitle, country, genre, releaseDate, watched));
-        }
-
-        public static bool DeleteMovie(string deleteMovie)
-        {
-            for (int i = 0; i < movieList.Count; i++)
-            {
-                if (movieList[i].Title.ToLower() == deleteMovie.ToLower())
-                {
-                    movieList.RemoveAt(i);
-                    return true;
-                }
-            }
-            return false;
-        }
+        AccountHandle accounthandle = new AccountHandle();
+        
 
         public static bool SearchMovie(string searchMovie)
         {
-            foreach (var movie in movieList)
+            foreach (var movie in AccountHandle.movieList)
             {
                 if (movie.Title.Equals(searchMovie, StringComparison.OrdinalIgnoreCase))
                 {
@@ -42,14 +27,9 @@ namespace MovieLibraryBDL
             return false;
         }
 
-        public static List<Movie> GetMovieList()
+        public static MovieLibraryCommon.Movie GetMovieTitle(string title)
         {
-            return movieList;
-        }
-
-        public static Movie GetMovieTitle(string title)
-        {
-            foreach (var movie in movieList)
+            foreach (var movie in AccountHandle.movieList)
             {
                 if (movie.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
                 {
@@ -59,9 +39,9 @@ namespace MovieLibraryBDL
             return null;
         }
 
-        public static Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseDate, string watched)
+        public static MovieLibraryCommon.Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseDate, string watched)
         {
-            foreach (var movie in movieList)
+            foreach (var movie in AccountHandle.movieList)
             {
                 if (movie.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
                 {
@@ -83,29 +63,26 @@ namespace MovieLibraryBDL
             return null;
         }
 
-        public static bool ValidateAccount(string userName, string password)
+        public static void AddMovie(string movieTitle, string country, string genre, string releaseDate, string watched)
         {
-            AccountHandle accounthandle = new AccountHandle();
+            AccountHandle.AddMovie(movieTitle, country, genre, releaseDate, watched);
+        }
+
+        public static bool DeleteMovie(string deleteMovie)
+        {
+          return  AccountHandle.DeleteMovie(deleteMovie);         
+        }
+
+        public static List<MovieLibraryCommon.Movie> GetMovieList()
+        {
+            return AccountHandle.movieList;
+        }
+
+        public bool ValidateAccount(string userName, string password)
+        {
             return accounthandle.ValidateAccount(userName, password);
         }
 
-        public class Movie
-        {
-            public string Title;
-            public string Country;
-            public string Genre;
-            public string ReleaseDate;
-            public string Watched;
-
-            public Movie(string title, string country, string genre, string releaseDate, string watched)
-            {
-                Title = title;
-                Country = country;
-                Genre = genre;
-                ReleaseDate = releaseDate;
-                Watched = watched;
-            }
-        }
     }
 }
 

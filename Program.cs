@@ -16,10 +16,23 @@ namespace MovieLibrary
                 "[3] View Movie List",
                 "[4] Search Movie",
                 "[5] Update Movie",
-                "[6] Exit"
+                "[6] Movie Recommendation",
+                "[7] Exit"
                 };
 
+        static string[] movieGenres =
+                 {
+                 "Action",
+                 "Comedy",
+                 "Drama",
+                 "Horror",
+                 "Sci-Fi",
+                 "Romance"
+                 };
+
+        static MovieLibraryProcess movieLibrary = new MovieLibraryProcess();
         static string userName = string.Empty;
+
 
         static void Main(string[] args)
         {
@@ -40,18 +53,18 @@ namespace MovieLibrary
                 Console.Write("\nPassword: ");
                 password = Console.ReadLine();
 
-                if (!MovieLibraryProcess.ValidateAccount(userName, password))
+                if (!movieLibrary.ValidateAccount(userName, password))
                 {
                     Console.WriteLine("Incorrect password. Try again.");
                 }
 
-            } while (!MovieLibraryProcess.ValidateAccount(userName, password));
+            } while (!movieLibrary.ValidateAccount(userName, password));
 
 
             DisplayMenu();
             int userChoice = GetUserInput();
 
-            while (userChoice != 6)
+            while (userChoice != 7)
             {
                 switch (userChoice)
                 {
@@ -75,8 +88,12 @@ namespace MovieLibrary
                     case 5:
                         UpdateMovieDetails();
                         break;
-                   
+
                     case 6:
+                        MovieRecommendation();
+                        break;
+
+                    case 7:
                         break;
                     default:
                         Console.WriteLine("Invalid Input. Enter between 1-7.");
@@ -163,14 +180,14 @@ namespace MovieLibrary
         static void ViewMovieList()
         {
 
-            if (MovieLibraryProcess.movieList.Count == 0)
+            if (AccountHandle.movieList.Count == 0)
             {
                 Console.WriteLine("\nNo movies available.");
             }
             else
             {
                 Console.WriteLine("\nMovie Titles:");
-                foreach (var movie in MovieLibraryProcess.movieList)
+                foreach (var movie in AccountHandle.movieList)
                 {
                     Console.WriteLine(movie.Title);
                 }
@@ -187,7 +204,7 @@ namespace MovieLibrary
 
                 if (MovieLibraryProcess.SearchMovie(searchTitle))
                 {
-                    foreach (var movie in MovieLibraryProcess.movieList)
+                    foreach (var movie in AccountHandle.movieList)
                     {
                         if (movie.Title.Equals(searchTitle, StringComparison.OrdinalIgnoreCase))
                         {
@@ -258,7 +275,7 @@ namespace MovieLibrary
         static void DisplayMovieDetails()
         {
             Console.WriteLine("\nMovies:");
-            List<MovieLibraryProcess.Movie> movie = MovieLibraryProcess.GetMovieList();
+            List<MovieLibraryCommon.Movie> movie = MovieLibraryProcess.GetMovieList();
             for (int i = 0; i < movie.Count; i++)
             {
                 Console.WriteLine(
@@ -271,7 +288,38 @@ namespace MovieLibrary
 
         }
 
+        static void MovieRecommendation()
+        {
+            Console.WriteLine("\n---------------------------");
+            Console.WriteLine("\n=====Genre List=====");
+            foreach (var genre in movieGenres)
+            {
+                Console.WriteLine(genre);
+            }
 
+            Console.Write("\nEnter Genre: ");
+            string genreChoice = Console.ReadLine();
+            MovieLibraryCommon.Genre match = null;
+
+            foreach (var genre in AccountHandle.genremovieRecomendation)
+            {
+                if (string.Equals(genre.Name, genreChoice, StringComparison.OrdinalIgnoreCase))
+                {
+                    match = genre;
+                    break;
+                }
+            }
+
+            if (match != null)
+            {
+                Console.WriteLine("\nMovies Available:");
+                foreach (var movie in match.Movies)
+                {
+                    Console.WriteLine(movie);
+                }
+            }
+
+        }
     }
 }
 
