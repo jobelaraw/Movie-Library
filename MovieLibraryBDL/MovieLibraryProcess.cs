@@ -11,15 +11,6 @@ namespace MovieLibraryBDL
     public class MovieLibraryProcess
     {
         public static List<Movie> movieList = new List<Movie>();
-        public static List<Genre> genremovieRecomendation = new List<Genre>
-        {
-        new Genre { Name = "Action", Movies = new List<string>{ "The K2", "My Name", "Healer", "Vincenzo", "Mr.Sunshine" } },
-        new Genre { Name = "Comedy", Movies = new List<string>{ "Midnight Runners", "Extreme Job", "The Thieves", "The Dude In Me", "Luck-Key" } },
-        new Genre { Name = "Drama", Movies = new List<string>{ "Laura", "The Handmaiden", "The Man From Nowhere", "Forgotten", "20th Century Girl" } },
-        new Genre { Name = "Horror", Movies = new List<string>{ "The Conjuring", "It", "Hereditary", "A Quiet Place", "The Exorcist" } },
-        new Genre { Name = "Sci-Fi", Movies = new List<string>{ "Call", "SeoBok", "Night Of The Undead", "Steel Rain", "Badland Hunters" } },
-        new Genre { Name = "Romance", Movies = new List<string>{ "True In For Love", "On Your Wedding Day", "Titanic", "Pride & Prejudice", "Hello Stranger"} },
-        };
 
         public static void AddMovie(string movieTitle, string country, string genre, string releaseDate, string watched)
         {
@@ -114,12 +105,6 @@ namespace MovieLibraryBDL
                 ReleaseDate = releaseDate;
                 Watched = watched;
             }
-        }
-
-        public class Genre
-        {
-            public string Name { get; set; }
-            public List<string> Movies { get; set; }
         }
     }
 }

@@ -12,4 +12,6 @@ namespace MovieLibraryCommon
 
         public string Password { get; set; }
     }
+
 }
+

@@ -16,18 +16,7 @@ namespace MovieLibrary
                 "[3] View Movie List",
                 "[4] Search Movie",
                 "[5] Update Movie",
-                "[6] Movie Recommendations",
-                "[7] Exit"
-                };
-
-        static string[] movieGenres =
-                {
-                "Action",
-                "Comedy",
-                "Drama",
-                "Horror",
-                "Sci-Fi",
-                "Romance"
+                "[6] Exit"
                 };
 
         static string userName = string.Empty;
@@ -62,7 +51,7 @@ namespace MovieLibrary
             DisplayMenu();
             int userChoice = GetUserInput();
 
-            while (userChoice != 7)
+            while (userChoice != 6)
             {
                 switch (userChoice)
                 {
@@ -86,12 +75,8 @@ namespace MovieLibrary
                     case 5:
                         UpdateMovieDetails();
                         break;
-
+                   
                     case 6:
-                        MovieRecommendation();
-                        break;
-
-                    case 7:
                         break;
                     default:
                         Console.WriteLine("Invalid Input. Enter between 1-7.");
@@ -284,42 +269,6 @@ namespace MovieLibrary
                     " Watched: " + movie[i].Watched + "\n");
             }
 
-        }
-
-        static void MovieRecommendation()
-        {
-            Console.WriteLine("\n---------------------------");
-            Console.WriteLine("\n=====Genre List=====");
-            foreach (var genre in movieGenres)
-            {
-                Console.WriteLine(genre);
-            }
-
-            Console.Write("\nEnter Genre: ");
-            string genreChoice = Console.ReadLine();
-            Genre match = null;
-
-            foreach (var genre in MovieLibraryProcess.genremovieRecomendation)
-            {
-                if (string.Equals(genre.Name, genreChoice, StringComparison.OrdinalIgnoreCase))
-                {
-                    match = genre;
-                    break;
-                }
-            }
-
-            if (match != null)
-            {
-                Console.WriteLine("\nMovies Available:");
-                foreach (var movie in match.Movies)
-                {
-                    Console.WriteLine(movie);
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nNo movies yet.");
-            }
         }
 
 
