@@ -14,12 +14,6 @@ namespace MovieLibraryBDL
 
         AccountHandle accounthandle = new AccountHandle();
         
-
-        public static bool SearchMovie(string searchMovie)
-        {
-            return AccountHandle.SearchMovie(searchMovie);
-        }
-
         public static MovieLibraryCommon.Movie GetMovieTitle(string title)
         {
             foreach (var movie in AccountHandle.movieList)
@@ -64,6 +58,11 @@ namespace MovieLibraryBDL
         public static bool DeleteMovie(string deleteMovie)
         {
           return AccountHandle.DeleteMovie(deleteMovie);         
+        }
+        
+        public static bool SearchMovie(string searchMovie)
+        {
+            return AccountHandle.SearchMovie(searchMovie);
         }
 
         public static List<MovieLibraryCommon.Movie> GetMovieList()

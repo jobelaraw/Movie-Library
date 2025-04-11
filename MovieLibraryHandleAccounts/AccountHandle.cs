@@ -36,7 +36,6 @@ namespace MovieLibraryData
             accounts.Add(account2);
         }
 
-
         public static void AddMovie(string movieTitle, string country, string genre, string releaseDate, string watched)
         {
             movieList.Add(new Movie(movieTitle, country, genre, releaseDate, watched));
