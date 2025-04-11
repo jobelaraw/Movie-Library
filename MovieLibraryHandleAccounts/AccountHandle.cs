@@ -55,6 +55,18 @@ namespace MovieLibraryData
             return false;
         }
 
+        public static bool SearchMovie(string searchMovie)
+        {
+            foreach (var movie in movieList)
+            {
+                if (movie.Title.Equals(searchMovie, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool ValidateAccount(string userName, string password)
         {
             foreach (var account in accounts)

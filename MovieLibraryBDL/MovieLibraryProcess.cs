@@ -17,14 +17,7 @@ namespace MovieLibraryBDL
 
         public static bool SearchMovie(string searchMovie)
         {
-            foreach (var movie in AccountHandle.movieList)
-            {
-                if (movie.Title.Equals(searchMovie, StringComparison.OrdinalIgnoreCase))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return AccountHandle.SearchMovie(searchMovie);
         }
 
         public static MovieLibraryCommon.Movie GetMovieTitle(string title)
@@ -70,7 +63,7 @@ namespace MovieLibraryBDL
 
         public static bool DeleteMovie(string deleteMovie)
         {
-          return  AccountHandle.DeleteMovie(deleteMovie);         
+          return AccountHandle.DeleteMovie(deleteMovie);         
         }
 
         public static List<MovieLibraryCommon.Movie> GetMovieList()
