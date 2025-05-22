@@ -1,83 +1,85 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using MovieLibraryData;
+using MovieLibraryCommon;
+using MovieLibraryDL;
 
-namespace MovieLibraryBDL
+namespace MovieLibraryBL
 {
     public class MovieLibraryProcess
     {
 
-        AccountHandle accounthandle = new AccountHandle();
-        
-        public static MovieLibraryCommon.Movie GetMovieTitle(string title)
+
+        MovieLibraryData movielibrarydata = new MovieLibraryData();
+
+        public Movie GetMovieTitle(string title)
         {
-            foreach (var movie in AccountHandle.movieList)
-            {
-                if (movie.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
-                {
-                    return movie;
-                }
-            }
-            return null;
+            return movielibrarydata.GetMovieTitle(title);
         }
 
-        public static MovieLibraryCommon.Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseDate, string watched)
+        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
-            foreach (var movie in AccountHandle.movieList)
-            {
-                if (movie.Title.Equals(title, StringComparison.OrdinalIgnoreCase))
-                {
-                    if (!string.IsNullOrWhiteSpace(newCountry))
-                        movie.Country = newCountry;
-
-                    if (!string.IsNullOrWhiteSpace(newGenre))
-                        movie.Genre = newGenre;
-
-                    if (!string.IsNullOrWhiteSpace(newReleaseDate))
-                        movie.ReleaseDate = newReleaseDate;
-
-                    if (!string.IsNullOrWhiteSpace(watched))
-                        movie.Watched = watched;
-
-                    return movie;
-                }
-            }
-            return null;
+            return movielibrarydata.UpdateMovieDetails(title, newCountry, newGenre, newReleaseYear, watched);
         }
 
-        public static void AddMovie(string movieTitle, string country, string genre, string releaseDate, string watched)
+        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            AccountHandle.AddMovie(movieTitle, country, genre, releaseDate, watched);
+            movielibrarydata.AddMovie(movieTitle, country, genre, releaseYear, watched);
         }
 
-        public static bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string deleteMovie)
         {
-          return AccountHandle.DeleteMovie(deleteMovie);         
-        }
-        
-        public static bool SearchMovie(string searchMovie)
-        {
-            return AccountHandle.SearchMovie(searchMovie);
+            return movielibrarydata.DeleteMovie(deleteMovie);
         }
 
-        public static List<MovieLibraryCommon.Movie> GetMovieList()
+        public bool SearchMovie(string searchMovie)
         {
-            return AccountHandle.movieList;
+            return movielibrarydata.SearchMovie(searchMovie);
+        }
+
+        public List<Movie> GetMovieList()
+        {
+            return movielibrarydata.GetMovieList();
         }
 
         public bool ValidateAccount(string userName, string password)
         {
-            return accounthandle.ValidateAccount(userName, password);
+            {
+                var acc = GetMovieLibraryAccount(userName, password);
+
+                if (acc.Username != null)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        private Account GetMovieLibraryAccount(string userName, string password)
+        {
+            var bankAccounts = movielibrarydata.GetAllAccounts();
+            var foundAccount = new Account();
+
+            foreach (var account in bankAccounts)
+            {
+                if (account.Username == userName && account.Password == password)
+                {
+                    foundAccount = account;
+                }
+            }
+            return foundAccount;
         }
 
     }
 }
-
 
 
 

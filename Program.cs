@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Collections.Generic;
-using MovieLibraryBDL;
-using MovieLibraryData;
-using static MovieLibraryBDL.MovieLibraryProcess;
+using MovieLibraryBL;
+using MovieLibraryDL;
+using MovieLibraryCommon;
 
 namespace MovieLibrary
 {
@@ -30,7 +30,7 @@ namespace MovieLibrary
                  "Romance"
                  };
 
-        static MovieLibraryProcess movieLibrary = new MovieLibraryProcess();
+        static MovieLibraryProcess movielibraryprocess = new MovieLibraryProcess();
         static string userName = string.Empty;
 
 
@@ -43,7 +43,7 @@ namespace MovieLibrary
 
 
             string password = string.Empty;
-
+            MovieLibraryProcess movieLibrary = new MovieLibraryProcess();
             do
             {
 
@@ -137,13 +137,13 @@ namespace MovieLibrary
                 Console.Write("Genre: ");
                 string genre = Console.ReadLine();
 
-                Console.Write("Release Date (mm-dd-yyyy): ");
-                string date = Console.ReadLine();
+                Console.Write("Release Year (yyyy): ");
+                string releaseYear = Console.ReadLine();
 
                 Console.Write("Have you watched this movie? (Yes or No): ");
                 string watched = Console.ReadLine();
 
-                MovieLibraryProcess.AddMovie(movieTitle, country, genre, date, watched);
+                movielibraryprocess.AddMovie(movieTitle, country, genre, releaseYear, watched);
                 Console.WriteLine(movieTitle + " Added Successfully!!!");
                 Console.Write("\nDo you want to add another movie?(Yes/No):  ");
                 addMoreMovie = Console.ReadLine().ToLower();
@@ -161,12 +161,12 @@ namespace MovieLibrary
                 Console.Write("\nEnter movie title to delete: ");
                 string deleteMovie = Console.ReadLine();
 
-                if (MovieLibraryProcess.DeleteMovie(deleteMovie))
+                if (movielibraryprocess.DeleteMovie(deleteMovie))
                 {
                     Console.WriteLine(deleteMovie + " Deleted Successfully!!!");
                 }
 
-                else if (!MovieLibraryProcess.DeleteMovie(deleteMovie))
+                else if (!movielibraryprocess.DeleteMovie(deleteMovie))
                 {
                     Console.WriteLine(deleteMovie + " is unable to delete.");
                 }
@@ -179,15 +179,14 @@ namespace MovieLibrary
 
         static void ViewMovieList()
         {
-
-            if (AccountHandle.movieList.Count == 0)
+            if (movielibraryprocess.GetMovieList().Count == 0)
             {
                 Console.WriteLine("\nNo movies available.");
             }
             else
             {
                 Console.WriteLine("\nMovie Titles:");
-                foreach (var movie in AccountHandle.movieList)
+                foreach (var movie in movielibraryprocess.GetMovieList())
                 {
                     Console.WriteLine(movie.Title);
                 }
@@ -202,9 +201,10 @@ namespace MovieLibrary
                 Console.Write("\nSearch by Movie Title: ");
                 string searchTitle = Console.ReadLine();
 
-                if (MovieLibraryProcess.SearchMovie(searchTitle))
+                if (movielibraryprocess.SearchMovie(searchTitle))
                 {
-                    foreach (var movie in AccountHandle.movieList)
+
+                    foreach (var movie in movielibraryprocess.GetMovieList())
                     {
                         if (movie.Title.Equals(searchTitle, StringComparison.OrdinalIgnoreCase))
                         {
@@ -212,7 +212,7 @@ namespace MovieLibrary
                             Console.WriteLine("Title: " + movie.Title);
                             Console.WriteLine("Country: " + movie.Country);
                             Console.WriteLine("Genre: " + movie.Genre);
-                            Console.WriteLine("Release Date: " + movie.ReleaseDate);
+                            Console.WriteLine("Release Year: " + movie.ReleaseYear);
                             Console.WriteLine("Watched: " + movie.Watched);
 
                         }
@@ -237,7 +237,7 @@ namespace MovieLibrary
                 DisplayMovieDetails();
                 Console.Write("\nEnter movie title you want to update: ");
                 string title = Console.ReadLine();
-                var movie = MovieLibraryProcess.GetMovieTitle(title);
+                var movie = movielibraryprocess.GetMovieTitle(title);
 
                 if (movie == null)
                 {
@@ -251,19 +251,20 @@ namespace MovieLibrary
                     Console.Write("Edit Genre: ");
                     string newGenre = Console.ReadLine();
 
-                    Console.Write("Edit Release Date: ");
-                    string newReleaseDate = Console.ReadLine();
+                    Console.Write("Edit Release Year: ");
+                    string newReleaseYear = Console.ReadLine();
 
-                    Console.Write("Have you watched this movie? (Type done): ");
+                    Console.Write("Have you watched this movie? (Yes/No): ");
                     string watched = Console.ReadLine();
 
-                    var updatedMovie = MovieLibraryProcess.UpdateMovieDetails(title, newCountry, newGenre, newReleaseDate, watched);
+                    var updatedMovie = movielibraryprocess.UpdateMovieDetails(title, newCountry, newGenre, newReleaseYear, watched);
 
                     Console.WriteLine("\nMovie updated successfully!");
                     Console.WriteLine("====Updated details====");
                     Console.WriteLine("Title: " + updatedMovie.Title);
                     Console.WriteLine("Country: " + updatedMovie.Country);
                     Console.WriteLine("Genre: " + updatedMovie.Genre);
+                    Console.WriteLine("ReleaseDate: " + updatedMovie.ReleaseYear);
                     Console.WriteLine("Watched: " + updatedMovie.Watched);
                 }
                 Console.Write("\nDo you want to update another movie? (Yes/No): ");
@@ -275,14 +276,14 @@ namespace MovieLibrary
         static void DisplayMovieDetails()
         {
             Console.WriteLine("\nMovies:");
-            List<MovieLibraryCommon.Movie> movie = MovieLibraryProcess.GetMovieList();
+            List<MovieLibraryCommon.Movie> movie = movielibraryprocess.GetMovieList();
             for (int i = 0; i < movie.Count; i++)
             {
                 Console.WriteLine(
                     "Title: " + movie[i].Title + " | " +
                     " Country: " + movie[i].Country + " | " +
                     " Genre: " + movie[i].Genre + " | " +
-                    " Release Date: " + movie[i].ReleaseDate + " | " +
+                    " Release Year: " + movie[i].ReleaseYear + " | " +
                     " Watched: " + movie[i].Watched + "\n");
             }
 
@@ -301,7 +302,7 @@ namespace MovieLibrary
             string genreChoice = Console.ReadLine();
             MovieLibraryCommon.Genre match = null;
 
-            foreach (var genre in AccountHandle.genremovieRecomendation)
+            foreach (var genre in MovieLibraryData.genremovieRecomendation)
             {
                 if (string.Equals(genre.Name, genreChoice, StringComparison.OrdinalIgnoreCase))
                 {

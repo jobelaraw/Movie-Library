@@ -9,8 +9,9 @@ namespace MovieLibraryCommon
     public class Account
     {
         public string Username { get; set; }
-
         public string Password { get; set; }
+        public List<Movie> Movies { get; set; } = new List<Movie>();
+
     }
 
     public class Genre
@@ -18,5 +19,6 @@ namespace MovieLibraryCommon
         public string Name { get; set; }
         public List<string> Movies { get; set; }
     }
+
 }
 

@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="MovieLibraryBDL\MovieLibraryBDL.csproj" />
-    <ProjectReference Include="MovieLibraryHandleAccounts\MovieLibraryData.csproj" />
+    <ProjectReference Include="MovieLibraryBDL\MovieLibraryBL.csproj" />
+    <ProjectReference Include="MovieLibraryHandleAccounts\MovieLibraryDL.csproj" />
   </ItemGroup>
 
 </Project>
