@@ -43,7 +43,6 @@ namespace MovieLibrary
 
 
             string password = string.Empty;
-            MovieLibraryProcess movieLibrary = new MovieLibraryProcess();
             do
             {
 
@@ -53,12 +52,12 @@ namespace MovieLibrary
                 Console.Write("\nPassword: ");
                 password = Console.ReadLine();
 
-                if (!movieLibrary.ValidateAccount(userName, password))
+                if (!movielibraryprocess.ValidateAccount(userName, password))
                 {
                     Console.WriteLine("Incorrect password. Try again.");
                 }
 
-            } while (!movieLibrary.ValidateAccount(userName, password));
+            } while (!movielibraryprocess.ValidateAccount(userName, password));
 
 
             DisplayMenu();
@@ -276,7 +275,7 @@ namespace MovieLibrary
         static void DisplayMovieDetails()
         {
             Console.WriteLine("\nMovies:");
-            List<MovieLibraryCommon.Movie> movie = movielibraryprocess.GetMovieList();
+            List<Movie> movie = movielibraryprocess.GetMovieList();
             for (int i = 0; i < movie.Count; i++)
             {
                 Console.WriteLine(
@@ -300,7 +299,7 @@ namespace MovieLibrary
 
             Console.Write("\nEnter Genre: ");
             string genreChoice = Console.ReadLine();
-            MovieLibraryCommon.Genre match = null;
+            Genre match = null;
 
             foreach (var genre in MovieLibraryData.genremovieRecomendation)
             {
