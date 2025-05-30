@@ -47,10 +47,10 @@ namespace MovieLibrary
             {
 
                 Console.Write("\nUsername: ");
-                userName = Console.ReadLine();
+                userName = Console.ReadLine().Trim();
 
                 Console.Write("\nPassword: ");
-                password = Console.ReadLine();
+                password = Console.ReadLine().Trim();
 
                 if (!movielibraryprocess.ValidateAccount(userName, password))
                 {
@@ -197,29 +197,23 @@ namespace MovieLibrary
             string searchAgain;
             do
             {
-                Console.Write("\nSearch by Movie Title: ");
-                string searchTitle = Console.ReadLine();
+                Console.Write("\nSearch Movie Title: ");
+                string searchTitle = Console.ReadLine().Trim();
 
-                if (movielibraryprocess.SearchMovie(searchTitle))
+                var movie = movielibraryprocess.SearchMovie(searchTitle);
+
+                if (movie != null)
                 {
-
-                    foreach (var movie in movielibraryprocess.GetMovieList())
-                    {
-                        if (movie.Title.Equals(searchTitle, StringComparison.OrdinalIgnoreCase))
-                        {
-                            Console.WriteLine("\nMovie Found:");
-                            Console.WriteLine("Title: " + movie.Title);
-                            Console.WriteLine("Country: " + movie.Country);
-                            Console.WriteLine("Genre: " + movie.Genre);
-                            Console.WriteLine("Release Year: " + movie.ReleaseYear);
-                            Console.WriteLine("Watched: " + movie.Watched);
-
-                        }
-                    }
+                    Console.WriteLine("\nMovie Found:");
+                    Console.WriteLine("Title: " + movie.Title);
+                    Console.WriteLine("Country: " + movie.Country);
+                    Console.WriteLine("Genre: " + movie.Genre);
+                    Console.WriteLine("Release Year: " + movie.ReleaseYear);
+                    Console.WriteLine("Watched: " + movie.Watched);
                 }
                 else
                 {
-                    Console.WriteLine("\n" + searchTitle + " is not on the Movie List.");
+                    Console.WriteLine(searchTitle + "is not in the list.");
                 }
 
                 Console.Write("\nDo you want to search another movie? (Yes/No): ");
@@ -228,12 +222,14 @@ namespace MovieLibrary
             } while (searchAgain == "yes");
         }
 
+
         static void UpdateMovieDetails()
         {
             string updateAgain;
             do
             {
                 DisplayMovieDetails();
+
                 Console.Write("\nEnter movie title you want to update: ");
                 string title = Console.ReadLine();
                 var movie = movielibraryprocess.GetMovieTitle(title);

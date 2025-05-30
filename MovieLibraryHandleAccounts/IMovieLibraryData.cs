@@ -14,7 +14,7 @@ namespace MovieLibraryDL
         public void DeleteAccount(Account account, string userName);
         public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched);
         public bool DeleteMovie(string deleteMovie);
-        public bool SearchMovie(string searchMovie);
+        public Movie SearchMovie(string searchMovie);
         public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched);
         public Movie GetMovieTitle(string title);
         public List<Movie> GetMovieList();

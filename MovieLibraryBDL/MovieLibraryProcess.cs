@@ -38,9 +38,9 @@ namespace MovieLibraryBL
             return movielibrarydata.DeleteMovie(deleteMovie);
         }
 
-        public bool SearchMovie(string searchMovie)
+        public Movie SearchMovie(string title)
         {
-            return movielibrarydata.SearchMovie(searchMovie);
+            return movielibrarydata.SearchMovie(title); 
         }
 
         public List<Movie> GetMovieList()
@@ -64,21 +64,17 @@ namespace MovieLibraryBL
 
         private Account GetMovieLibraryAccount(string userName, string password)
         {
-            var bankAccounts = movielibrarydata.GetAllAccounts();
+            var accounts = movielibrarydata.GetAllAccounts();
             var foundAccount = new Account();
 
-            foreach (var account in bankAccounts)
+            foreach (var account in accounts)
             {
-                if (account.Username == userName && account.Password == password)
+                if (account.Username.Trim() == userName.Trim() && account.Password.Trim() == password.Trim())
                 {
                     foundAccount = account;
                 }
             }
             return foundAccount;
         }
-
     }
 }
-
-
-

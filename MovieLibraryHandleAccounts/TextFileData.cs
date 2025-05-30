@@ -188,21 +188,20 @@ namespace MovieLibraryDL
             return null;
         }
 
-        public bool SearchMovie(string searchMovie)
+        public Movie SearchMovie(string searchMovie)
         {
-            movieList.Clear();
             GetDataFromFileMovieList();
-
             foreach (var movie in movieList)
             {
-                if (movie.Title.Contains(searchMovie, StringComparison.OrdinalIgnoreCase))
+                if (movie.Title.Equals(searchMovie, StringComparison.OrdinalIgnoreCase))
                 {
-                    return true;
+                    return movie;
                 }
             }
 
-            return false;
+            return null; 
         }
+
 
         public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {

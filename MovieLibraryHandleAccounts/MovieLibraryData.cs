@@ -10,9 +10,10 @@ namespace MovieLibraryDL
 
         public MovieLibraryData()
         {
-            movielibrarydata = new InMemoryData();
+            //movielibrarydata = new InMemoryData();
             //movielibrarydata = new TextFileData();
             //movielibrarydata = new JsonFileData();
+            //movielibrarydata = new DBMovieLibraryData();
 
         }
 
@@ -51,7 +52,7 @@ namespace MovieLibraryDL
             return movielibrarydata.DeleteMovie(deleteMovie);
         }
 
-        public bool SearchMovie(string searchMovie)
+        public Movie SearchMovie(string searchMovie)
         {
             return movielibrarydata.SearchMovie(searchMovie);
         }
