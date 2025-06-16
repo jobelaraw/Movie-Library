@@ -13,8 +13,8 @@ namespace MovieLibraryDL
         string AccountfilePath = "account.txt";
         string MovieListfilePath = "movielist.txt";
 
-        List<Account> accounts = new List<Account>();
-        List<Movie> movieList = new List<Movie>();
+        static List<Account> accounts = new List<Account>();
+        static List<Movie> movieList = new List<Movie>();
 
         public TextFileData()
         {
@@ -32,8 +32,9 @@ namespace MovieLibraryDL
 
                 accounts.Add(new Account
                 {
-                    Username = parts[0],
-                    Password = parts[1],
+                    Name = parts[0],
+                    Username = parts[1],
+                    Password = parts[2],
 
                 });
             }
@@ -65,7 +66,7 @@ namespace MovieLibraryDL
 
             for (int i = 0; i < accounts.Count; i++)
             {
-                lines[i] = accounts[i].Username + "|" + accounts[i].Password;
+                lines[i] = accounts[i].Name + "|" + accounts[i].Username + "|" + accounts[i].Password;
             }
 
             File.WriteAllLines(AccountfilePath, lines);
@@ -98,31 +99,6 @@ namespace MovieLibraryDL
             }
 
             return -1;
-        }
-
-        public void CreateAccount(Account account, string userName, string password)
-        {
-            var newLine = account.Username + "|" + account.Password;
-
-            File.AppendAllText(AccountfilePath, newLine);
-            WriteDataToFileAccount();
-        }
-
-        public void DeleteAccount(Account account, string userName)
-        {
-            {
-                int index = -1;
-                for (int i = 0; i < accounts.Count; i++)
-                {
-                    if (accounts[i].Username == account.Username)
-                    {
-                        index = i;
-                    }
-                }
-                accounts.RemoveAt(index);
-
-                WriteDataToFileMovieList();
-            }
         }
 
         public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
@@ -225,6 +201,43 @@ namespace MovieLibraryDL
         public List<Account> GetAllAccounts()
         {
             return accounts;
+        }
+
+        public void CreateAccount(string name, string userName, string password)
+        {
+            {
+                if (accounts.Any(a => a.Username.Equals(userName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return;
+                }
+
+                Account newAccount = new Account
+                {
+                    Name = name,
+                    Username = userName,
+                    Password = password
+                };
+
+                accounts.Add(newAccount);
+                WriteDataToFileAccount(); 
+            }
+        }
+
+        public bool DeleteAccount(string userName, string password)
+        {
+            {
+                var account = accounts.FirstOrDefault(a =>
+                    a.Username.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+                    a.Password == password);
+
+                if (account != null)
+                {
+                    accounts.Remove(account);
+                    WriteDataToFileAccount(); 
+                    return true;
+                }
+                return false;
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿using MovieLibraryCommon;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,39 +35,24 @@ namespace MovieLibraryDL
         private void CreateAcc()
         {
             Account account1 = new Account();
+            account1.Name = "Jobel Araw";
             account1.Username = "jobel";
             account1.Password = "jobel123";
             accounts.Add(account1);
 
         }
-
-        public void CreateAccount(Account account, string userName, string password)
-        {
-            {
-                accounts.Add(new Account
-                {
-                    Username = userName,
-                    Password = password,
-                });
-            }
-        }
-
-        public void DeleteAccount(Account account, string userName)
-        {
-            var accountToRemove = accounts.FirstOrDefault(a => a.Username == userName);
-            for (int i = 0; i < accounts.Count; i++)
-            {
-                if (accounts[i].Username == userName)
-                {
-                    accounts.RemoveAt(i);
-                    break;
-                }
-            }
-        }
+       
 
         public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            movieList.Add(new Movie(movieTitle, country, genre, releaseYear, watched));
+            Movie newMovie = new Movie();
+            newMovie.Title = movieTitle;
+            newMovie.Country = country;
+            newMovie.Genre = genre;
+            newMovie.ReleaseYear = releaseYear;
+            newMovie.Watched = watched;
+
+            movieList.Add(newMovie);
         }
 
         public bool DeleteMovie(string deleteMovie)
@@ -94,14 +80,15 @@ namespace MovieLibraryDL
             return null; 
         }
 
-
         public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
-
             var movie = movieList.FirstOrDefault(m => m.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
             if (movie != null)
             {
-                movie.UpdateDetails(newCountry, newGenre, newReleaseYear, watched);
+                if (!string.IsNullOrWhiteSpace(newCountry)) movie.Country = newCountry;
+                if (!string.IsNullOrWhiteSpace(newGenre)) movie.Genre = newGenre;
+                if (!string.IsNullOrWhiteSpace(newReleaseYear)) movie.ReleaseYear = newReleaseYear;
+                if (!string.IsNullOrWhiteSpace(watched)) movie.Watched = watched;
             }
             return movie;
         }
@@ -128,6 +115,39 @@ namespace MovieLibraryDL
         public List<Account> GetAllAccounts()
         {
             return accounts;
+        }
+
+        public void CreateAccount(string name, string userName, string password)
+        {
+            if (accounts.Any(a => a.Username.Equals(userName, StringComparison.OrdinalIgnoreCase)))
+            {
+                return;
+            }
+
+            Account newAccount = new Account()
+            {
+                Name = name,
+                Username = userName,
+                Password = password
+            };
+
+            accounts.Add(newAccount);
+        }        
+
+        public bool DeleteAccount(string userName, string password)
+        {
+            {
+                var account = accounts.FirstOrDefault(a =>
+                    a.Username.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+                    a.Password == password);
+
+                if (account != null)
+                {
+                    accounts.Remove(account);
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

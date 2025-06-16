@@ -7,6 +7,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Azure.Identity;
 using MovieLibraryCommon;
 using MovieLibraryDL;
 
@@ -40,7 +41,7 @@ namespace MovieLibraryBL
 
         public Movie SearchMovie(string title)
         {
-            return movielibrarydata.SearchMovie(title); 
+            return movielibrarydata.SearchMovie(title);
         }
 
         public List<Movie> GetMovieList()
@@ -76,5 +77,16 @@ namespace MovieLibraryBL
             }
             return foundAccount;
         }
+
+        public void CreateAccount(string name, string userName, string password)
+        {
+            movielibrarydata.CreateAccount(name, userName, password);
+        }
+
+        public bool DeleteAccount (string userName, string password)
+        {
+            return movielibrarydata.DeleteAccount(userName, password);
+        }
+
     }
 }

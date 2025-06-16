@@ -32,35 +32,35 @@ namespace MovieLibraryDL
 
         }
 
-        public void CreateAccount(Account account, string userName, string password)
+        public void CreateAccount(string name, string userName, string password)
         {
-            var insertStatement = "INSERT INTO AccountInfo (Username, Password) VALUES (@Username, @Password)";
+            var insertStatement = "INSERT INTO AccountInfo (Name, Username, Password) VALUES (@Name, @Username, @Password)";
             SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
 
-            insertCommand.Parameters.AddWithValue("@Username", account.Username);
-            insertCommand.Parameters.AddWithValue("@Password", account.Password);
+            insertCommand.Parameters.AddWithValue("@Name", name);
+            insertCommand.Parameters.AddWithValue("@Username", userName);
+            insertCommand.Parameters.AddWithValue("@Password", password);
 
             sqlConnection.Open();
             insertCommand.ExecuteNonQuery();
             sqlConnection.Close();
-
         }
 
-
-        public void DeleteAccount(Account account, string userName)
+        public bool DeleteAccount(string userName, string password)
         {
-
-            var deleteStatement = "DELETE FROM AccountInfo WHERE Username = @Username";
+            var deleteStatement = "DELETE FROM AccountInfo WHERE Username = @Username AND Password = @Password";
             SqlCommand deleteCommand = new SqlCommand(deleteStatement, sqlConnection);
+
+            deleteCommand.Parameters.AddWithValue("@Username", userName);
+            deleteCommand.Parameters.AddWithValue("@Password", password);
+
             sqlConnection.Open();
-            deleteCommand.Parameters.AddWithValue("@Username", account.Username);
-
-            deleteCommand.ExecuteNonQuery();
-
+            int rowsAffected = deleteCommand.ExecuteNonQuery();
             sqlConnection.Close();
+
+            return rowsAffected > 0;
         }
 
-              
         public bool DeleteMovie(string deleteMovie)
         {
             var deleteStatement = "DELETE FROM MovieInfo WHERE MovieTitle = @MovieTitle";
@@ -78,7 +78,7 @@ namespace MovieLibraryDL
 
         public List<Account> GetAllAccounts()
         {
-            string selectStatement = "SELECT Username, Password FROM AccountInfo";
+            string selectStatement = "SELECT Name, Username, Password FROM AccountInfo";
             SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
             sqlConnection.Open();
 
@@ -89,6 +89,7 @@ namespace MovieLibraryDL
             while (reader.Read())
             {
                 Account account = new Account();
+                account.Username = reader["Name"].ToString();
                 account.Username = reader["Username"].ToString();
                 account.Password = reader["Password"].ToString();
 

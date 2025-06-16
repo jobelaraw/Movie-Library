@@ -15,25 +15,12 @@ namespace MovieLibraryCommon
         public string ReleaseYear { get; set; }
         public string Watched { get; set; }
 
-        public Movie()
-        {
-        }
+    }
 
-        public void UpdateDetails(string country, string genre, string releaseYear, string watched)
-        {
-            if (!string.IsNullOrWhiteSpace(country)) Country = country;
-            if (!string.IsNullOrWhiteSpace(genre)) Genre = genre;
-            if (!string.IsNullOrWhiteSpace(releaseYear)) ReleaseYear = releaseYear;
-            if (!string.IsNullOrWhiteSpace(watched)) Watched = watched;
-        }
-        public Movie(string title, string country, string genre, string releaseYear, string watched)
-        {
-            Title = title;
-            Country = country;
-            Genre = genre;
-            ReleaseYear = releaseYear;
-            Watched = watched;
-        }
+    public class Genre
+    {
+        public string Name { get; set; }
+        public List<string> Movies { get; set; }
     }
 }
 

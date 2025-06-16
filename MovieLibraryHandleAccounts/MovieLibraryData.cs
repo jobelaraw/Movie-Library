@@ -13,7 +13,7 @@ namespace MovieLibraryDL
             //movielibrarydata = new InMemoryData();
             //movielibrarydata = new TextFileData();
             //movielibrarydata = new JsonFileData();
-            //movielibrarydata = new DBMovieLibraryData();
+            movielibrarydata = new DBMovieLibraryData();
 
         }
 
@@ -31,17 +31,7 @@ namespace MovieLibraryDL
         {
             return movielibrarydata.GetAllAccounts();
         }
-        public void CreateAccount(Account account, string userName, string password)
-        {
-            movielibrarydata.CreateAccount(account, userName, password);
-
-        }
-
-        public void DeleteAccount(Account account, string userName)
-        {
-            movielibrarydata.DeleteAccount(account, userName);
-        }
-
+      
         public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
         {
             movielibrarydata.AddMovie(movieTitle, country, genre, releaseYear, watched);
@@ -70,6 +60,16 @@ namespace MovieLibraryDL
         public List<Movie> GetMovieList()
         {
             return movielibrarydata.GetMovieList();
+        }
+
+        public void CreateAccount(string name, string userName, string password)
+        {
+            movielibrarydata.CreateAccount(name, userName, password);
+        }
+
+        public bool DeleteAccount(string userName, string password)
+        {
+            return movielibrarydata.DeleteAccount(userName, password);
         }
     }
 }

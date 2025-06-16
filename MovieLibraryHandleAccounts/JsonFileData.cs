@@ -84,19 +84,6 @@ namespace MovieLibraryDL
             return accounts;
         }
 
-        public void CreateAccount(Account account, string userName, string password)
-        {
-            accounts.Add(account);
-            WriteJsonDataToFileAccount();
-        }
-
-        public void DeleteAccount(Account account, string userName)
-        {
-            var index = FindAccountIndex(account, account.Username);
-
-            accounts.RemoveAt(index);
-            WriteJsonDataToFileAccount();
-        }
 
         public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
         {
@@ -188,6 +175,48 @@ namespace MovieLibraryDL
         {
             ReadJsonDataFromFileMovieList();
             return movieList;
+        }
+
+        public void CreateAccount(string name, string userName, string password)
+        {
+            ReadJsonDataFromFileAccount();
+            name = name.Trim();
+            userName = userName.Trim();
+            password = password.Trim();
+
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
+            {
+                return;
+            }
+
+            var newAccount = new Account
+            {
+                Name = name,
+                Username = userName,
+                Password = password
+            };
+
+            accounts.Add(newAccount);
+            WriteJsonDataToFileAccount();
+        }
+
+        public bool DeleteAccount(string userName, string password)
+        {
+            {
+                ReadJsonDataFromFileAccount();
+                var account = accounts.FirstOrDefault(a =>
+                    a.Username.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+                    a.Password == password);
+
+                if (account != null)
+                {
+                    accounts.Remove(account);
+                    WriteJsonDataToFileAccount();
+                    return true;
+                }
+
+                return false;
+            }
         }
     }
 }
