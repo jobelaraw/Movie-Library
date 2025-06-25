@@ -11,12 +11,15 @@
     <Compile Remove="MovieLibraryBDL\**" />
     <Compile Remove="MovieLibraryCommon\**" />
     <Compile Remove="MovieLibraryHandleAccounts\**" />
+    <Compile Remove="MovieLibraryUI\**" />
     <EmbeddedResource Remove="MovieLibraryBDL\**" />
     <EmbeddedResource Remove="MovieLibraryCommon\**" />
     <EmbeddedResource Remove="MovieLibraryHandleAccounts\**" />
+    <EmbeddedResource Remove="MovieLibraryUI\**" />
     <None Remove="MovieLibraryBDL\**" />
     <None Remove="MovieLibraryCommon\**" />
     <None Remove="MovieLibraryHandleAccounts\**" />
+    <None Remove="MovieLibraryUI\**" />
   </ItemGroup>
 
   <ItemGroup>

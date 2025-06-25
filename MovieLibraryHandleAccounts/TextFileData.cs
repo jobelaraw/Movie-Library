@@ -101,7 +101,7 @@ namespace MovieLibraryDL
             return -1;
         }
 
-        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
+        public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
             var newMovie = new Movie
             {
@@ -116,7 +116,7 @@ namespace MovieLibraryDL
             WriteDataToFileMovieList();
         }
 
-        public bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
             GetDataFromFileMovieList();
             deleteMovie = deleteMovie.Trim();
@@ -141,7 +141,7 @@ namespace MovieLibraryDL
             return false;
         }
 
-        public List<Movie> GetMovieList()
+        public List<Movie> GetMovieList(string userName)
         {
             GetDataFromFileMovieList();
             return movieList;
@@ -164,7 +164,7 @@ namespace MovieLibraryDL
             return null;
         }
 
-        public Movie SearchMovie(string searchMovie)
+        public Movie SearchMovie(string userName, string searchMovie)
         {
             GetDataFromFileMovieList();
             foreach (var movie in movieList)
@@ -179,7 +179,7 @@ namespace MovieLibraryDL
         }
 
 
-        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
+        public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
             Movie tempMovie = new Movie { Title = title };
             int index = FindIndexMovieList(tempMovie);

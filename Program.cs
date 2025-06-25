@@ -40,6 +40,7 @@ namespace MovieLibrary
 
         static MovieLibraryProcess movielibraryprocess = new MovieLibraryProcess();
         static bool loggedin = false;
+        static Account userAccount;
 
         static void Main(string[] args)
         {
@@ -150,7 +151,8 @@ namespace MovieLibrary
                     Console.Write("Have you watched this movie? (Yes or No): ");
                     string watched = Console.ReadLine();
 
-                    movielibraryprocess.AddMovie(movieTitle, country, genre, releaseYear, watched);
+                    string userName = userAccount.Username;
+                    movielibraryprocess.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
                     Console.WriteLine(movieTitle + " Added Successfully!!!");
                     Console.Write("\nDo you want to add another movie?(Yes/No):  ");
                     addMoreMovie = Console.ReadLine().ToLower();
@@ -167,13 +169,14 @@ namespace MovieLibrary
                     DisplayMovieDetails();
                     Console.Write("\nEnter movie title to delete: ");
                     string deleteMovie = Console.ReadLine();
-
-                    if (movielibraryprocess.DeleteMovie(deleteMovie))
+                    
+                    string userName = userAccount.Username;
+                    if (movielibraryprocess.DeleteMovie(userName, deleteMovie))
                     {
                         Console.WriteLine(deleteMovie + " Deleted Successfully!!!");
                     }
 
-                    else if (!movielibraryprocess.DeleteMovie(deleteMovie))
+                    else if (!movielibraryprocess.DeleteMovie(userName, deleteMovie))
                     {
                         Console.WriteLine(deleteMovie + " is unable to delete.");
                     }
@@ -186,14 +189,15 @@ namespace MovieLibrary
 
             static void ViewMovieList()
             {
-                if (movielibraryprocess.GetMovieList().Count == 0)
+                string userName = userAccount.Username;
+                if (movielibraryprocess.GetMovieList(userName).Count == 0)
                 {
                     Console.WriteLine("\nNo movies available.");
                 }
                 else
                 {
                     Console.WriteLine("\nMovie Titles:");
-                    foreach (var movie in movielibraryprocess.GetMovieList())
+                    foreach (var movie in movielibraryprocess.GetMovieList(userName))
                     {
                         Console.WriteLine(movie.Title);
                     }
@@ -208,7 +212,8 @@ namespace MovieLibrary
                     Console.Write("\nSearch Movie Title: ");
                     string searchTitle = Console.ReadLine().Trim();
 
-                    var movie = movielibraryprocess.SearchMovie(searchTitle);
+                    string userName = userAccount.Username;
+                    var movie = movielibraryprocess.SearchMovie(userName, searchTitle);
 
                     if (movie != null)
                     {
@@ -221,7 +226,7 @@ namespace MovieLibrary
                     }
                     else
                     {
-                        Console.WriteLine(searchTitle + "is not in the list.");
+                        Console.WriteLine(searchTitle + " is not in the list.");
                     }
 
                     Console.Write("\nDo you want to search another movie? (Yes/No): ");
@@ -259,7 +264,8 @@ namespace MovieLibrary
                         Console.Write("Have you watched this movie? (Yes/No): ");
                         string watched = Console.ReadLine();
 
-                        var updatedMovie = movielibraryprocess.UpdateMovieDetails(title, newCountry, newGenre, newReleaseYear, watched);
+                        string userName = userAccount.Username;
+                        var updatedMovie = movielibraryprocess.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
 
                         Console.WriteLine("\nMovie updated successfully!");
                         Console.WriteLine("====Updated details====");
@@ -278,7 +284,9 @@ namespace MovieLibrary
             static void DisplayMovieDetails()
             {
                 Console.WriteLine("\nMovies:");
-                List<Movie> movie = movielibraryprocess.GetMovieList();
+                string userName = userAccount.Username;
+                List<Movie> movie = movielibraryprocess.GetMovieList(userName);
+                
                 for (int i = 0; i < movie.Count; i++)
                 {
                     Console.WriteLine(
@@ -299,12 +307,13 @@ namespace MovieLibrary
                 {
                     Console.WriteLine(genre);
                 }
+                var genreList = movielibraryprocess.GetGenreRecommendations();
 
                 Console.Write("\nEnter Genre: ");
                 string genreChoice = Console.ReadLine();
                 Genre match = null;
 
-                foreach (var genre in MovieLibraryData.genremovieRecomendation)
+                foreach (var genre in genreList)
                 {
                     if (string.Equals(genre.Name, genreChoice, StringComparison.OrdinalIgnoreCase))
                     {
@@ -320,6 +329,10 @@ namespace MovieLibrary
                     {
                         Console.WriteLine(movie);
                     }
+                }
+                else
+                {
+                    Console.WriteLine("\nNo matching genre found.");
                 }
             }
 
@@ -351,23 +364,25 @@ namespace MovieLibrary
 
             static void Signin()
             {
-                {
+                
                     Console.Write("\nUsername: ");
                     string userName = Console.ReadLine().Trim();
 
                     Console.Write("Password: ");
                     string password = Console.ReadLine().Trim();
-
+                    var account =   movielibraryprocess.GetMovieLibraryAccount(userName, password);
+                    
                     if (movielibraryprocess.ValidateAccount(userName, password))
                     {
                         loggedin = true;
+                        userAccount = account;
                         Console.WriteLine("Login successful! Welcome, " + userName);
                     }
                     else
                     {
                         Console.WriteLine("Incorrect username or password. Please try again.");
                     }
-                }
+                
             }
 
             static void Signup()
@@ -421,6 +436,7 @@ namespace MovieLibrary
                     {
                         Console.WriteLine("\nAccount has been successfully deleted.");
                         loggedin = false;
+                        userAccount = null;
                         SignUpOrSignin(); 
                     }
                     else
@@ -430,6 +446,8 @@ namespace MovieLibrary
                 }
                 else
                 {
+                    Console.WriteLine("\nCancelled.");
+
                 }
             }
         }

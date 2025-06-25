@@ -43,9 +43,10 @@ namespace MovieLibraryDL
         }
        
 
-        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
+        public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
             Movie newMovie = new Movie();
+            newMovie.Username = userName;
             newMovie.Title = movieTitle;
             newMovie.Country = country;
             newMovie.Genre = genre;
@@ -55,7 +56,7 @@ namespace MovieLibraryDL
             movieList.Add(newMovie);
         }
 
-        public bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
             for (int i = 0; i < movieList.Count; i++)
             {
@@ -68,7 +69,7 @@ namespace MovieLibraryDL
             return false;
         }
 
-        public Movie SearchMovie(string searchMovie)
+        public Movie SearchMovie(string userName, string searchMovie)
         {
             foreach (var movie in movieList)
             {
@@ -80,7 +81,7 @@ namespace MovieLibraryDL
             return null; 
         }
 
-        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
+        public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
             var movie = movieList.FirstOrDefault(m => m.Title.Equals(title, StringComparison.OrdinalIgnoreCase));
             if (movie != null)
@@ -106,7 +107,7 @@ namespace MovieLibraryDL
             return null;
         }
 
-        public List<Movie> GetMovieList()
+        public List<Movie> GetMovieList(string userName)
         {
             return movieList;
 

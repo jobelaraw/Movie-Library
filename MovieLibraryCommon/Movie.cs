@@ -9,6 +9,7 @@ namespace MovieLibraryCommon
 
     public class Movie
     {
+        public string Username { get; set; }
         public string Title { get; set; }
         public string Country { get; set; }
         public string Genre { get; set; }

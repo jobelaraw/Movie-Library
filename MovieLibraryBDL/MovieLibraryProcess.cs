@@ -19,34 +19,44 @@ namespace MovieLibraryBL
 
         MovieLibraryData movielibrarydata = new MovieLibraryData();
 
+        public static List<Genre> genremovieRecomendation = new List<Genre>
+         {
+         new Genre { Name = "Action", Movies = new List<string>{ "The K2", "My Name", "Healer", "Vincenzo", "Mr.Sunshine" } },
+         new Genre { Name = "Comedy", Movies = new List<string>{ "Midnight Runners", "Extreme Job", "The Thieves", "The Dude In Me", "Luck-Key" } },
+         new Genre { Name = "Drama", Movies = new List<string>{ "Laura", "The Handmaiden", "The Man From Nowhere", "Forgotten", "20th Century Girl" } },
+         new Genre { Name = "Horror", Movies = new List<string>{ "The Conjuring", "It", "Hereditary", "A Quiet Place", "The Exorcist" } },
+         new Genre { Name = "Sci-Fi", Movies = new List<string>{ "Call", "SeoBok", "Night Of The Undead", "Steel Rain", "Badland Hunters" } },
+         new Genre { Name = "Romance", Movies = new List<string>{ "True In For Love", "On Your Wedding Day", "Titanic", "Pride & Prejudice", "Hello Stranger"} },
+         };
+
         public Movie GetMovieTitle(string title)
         {
             return movielibrarydata.GetMovieTitle(title);
         }
 
-        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
+        public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
-            return movielibrarydata.UpdateMovieDetails(title, newCountry, newGenre, newReleaseYear, watched);
+            return movielibrarydata.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
         }
 
-        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
+        public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            movielibrarydata.AddMovie(movieTitle, country, genre, releaseYear, watched);
+            movielibrarydata.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
         }
 
-        public bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string userName ,string deleteMovie)
         {
-            return movielibrarydata.DeleteMovie(deleteMovie);
+            return movielibrarydata.DeleteMovie(userName, deleteMovie);
         }
 
-        public Movie SearchMovie(string title)
+        public Movie SearchMovie(string userName, string title)
         {
-            return movielibrarydata.SearchMovie(title);
+            return movielibrarydata.SearchMovie(userName, title);
         }
 
-        public List<Movie> GetMovieList()
+        public List<Movie> GetMovieList(string userName)
         {
-            return movielibrarydata.GetMovieList();
+            return movielibrarydata.GetMovieList(userName);
         }
 
         public bool ValidateAccount(string userName, string password)
@@ -63,7 +73,7 @@ namespace MovieLibraryBL
             }
         }
 
-        private Account GetMovieLibraryAccount(string userName, string password)
+        public Account GetMovieLibraryAccount(string userName, string password)
         {
             var accounts = movielibrarydata.GetAllAccounts();
             var foundAccount = new Account();
@@ -87,6 +97,12 @@ namespace MovieLibraryBL
         {
             return movielibrarydata.DeleteAccount(userName, password);
         }
+
+        public List<Genre> GetGenreRecommendations()
+        {
+            return genremovieRecomendation;
+        }
+
 
     }
 }

@@ -14,12 +14,12 @@ namespace MovieLibraryDL
             sqlConnection = new SqlConnection(connectionString);
         }
 
-
-        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
+        public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            var insertStatement = "INSERT INTO MovieInfo VALUES (@MovieTitle, @MovieCountry, @MovieGenre, @MovieReleaseYear, @MovieWatched)";
+            var insertStatement = "INSERT INTO MovieInfo VALUES (@Username, @MovieTitle, @MovieCountry, @MovieGenre, @MovieReleaseYear, @MovieWatched)";
             SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
 
+                insertCommand.Parameters.AddWithValue("@Username", userName);
                 insertCommand.Parameters.AddWithValue("@MovieTitle", movieTitle);
                 insertCommand.Parameters.AddWithValue("@MovieCountry", country);
                 insertCommand.Parameters.AddWithValue("@MovieGenre", genre);
@@ -50,23 +50,28 @@ namespace MovieLibraryDL
         {
             var deleteStatement = "DELETE FROM AccountInfo WHERE Username = @Username AND Password = @Password";
             SqlCommand deleteCommand = new SqlCommand(deleteStatement, sqlConnection);
-
             deleteCommand.Parameters.AddWithValue("@Username", userName);
             deleteCommand.Parameters.AddWithValue("@Password", password);
 
+            var deleteState = "DELETE FROM MovieInfo WHERE Username = @Username";
+            SqlCommand deleteComm = new SqlCommand(deleteState, sqlConnection);
+            deleteComm.Parameters.AddWithValue("@Username", userName);
+
             sqlConnection.Open();
+            deleteComm.ExecuteNonQuery();
             int rowsAffected = deleteCommand.ExecuteNonQuery();
             sqlConnection.Close();
 
             return rowsAffected > 0;
         }
 
-        public bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
-            var deleteStatement = "DELETE FROM MovieInfo WHERE MovieTitle = @MovieTitle";
+            var deleteStatement = "DELETE FROM MovieInfo WHERE Username = @Username AND MovieTitle = @MovieTitle";
             sqlConnection.Open();
             SqlCommand deleteCommand = new SqlCommand(deleteStatement, sqlConnection);
             
+                deleteCommand.Parameters.AddWithValue("@Username", userName);
                 deleteCommand.Parameters.AddWithValue("@MovieTitle", deleteMovie);
 
                 int rowsAffected = deleteCommand.ExecuteNonQuery();
@@ -89,7 +94,7 @@ namespace MovieLibraryDL
             while (reader.Read())
             {
                 Account account = new Account();
-                account.Username = reader["Name"].ToString();
+                account.Name = reader["Name"].ToString();
                 account.Username = reader["Username"].ToString();
                 account.Password = reader["Password"].ToString();
 
@@ -101,10 +106,11 @@ namespace MovieLibraryDL
 
         }
 
-        public List<Movie> GetMovieList()
+        public List<Movie> GetMovieList(string userName)
         {
-            string selectStatement = "SELECT * FROM MovieInfo";
+            string selectStatement = "SELECT * FROM MovieInfo Where Username = @Username";
             SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@Username", userName);
             sqlConnection.Open();
             SqlDataReader reader = selectCommand.ExecuteReader();
 
@@ -124,7 +130,6 @@ namespace MovieLibraryDL
             sqlConnection.Close();
             return movielist;
         }
-
 
         public Movie GetMovieTitle(string title)
         {
@@ -154,10 +159,11 @@ namespace MovieLibraryDL
             }
         }
 
-        public Movie SearchMovie(string title)
+        public Movie SearchMovie(string userName, string title)
         {
-            string query = "SELECT * FROM MovieInfo WHERE MovieTitle = @MovieTitle";
+            string query = "SELECT * FROM MovieInfo WHERE Username = @Username AND MovieTitle = @MovieTitle";
             SqlCommand selectCommand = new SqlCommand(query, sqlConnection);
+            selectCommand.Parameters.AddWithValue("@Username", userName);
             selectCommand.Parameters.AddWithValue("@MovieTitle", title);
 
             sqlConnection.Open();
@@ -182,14 +188,14 @@ namespace MovieLibraryDL
             return movie;
         }
 
-
-        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
+        public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
             sqlConnection.Open();
-            var updateStatement = "UPDATE MovieInfo SET MovieCountry = @MovieCountry, MovieGenre = @MovieGenre, MovieReleaseYear = @MovieReleaseYear, MovieWatched = @MovieWatched WHERE MovieTitle = @MovieTitle";
+            var updateStatement = "UPDATE MovieInfo SET MovieCountry = @MovieCountry, MovieGenre = @MovieGenre, MovieReleaseYear = @MovieReleaseYear, MovieWatched = @MovieWatched WHERE Username = @Username AND MovieTitle = @MovieTitle";
 
             SqlCommand updateCommand = new SqlCommand(updateStatement, sqlConnection);
 
+            updateCommand.Parameters.AddWithValue("@Username", userName);
             updateCommand.Parameters.AddWithValue("@MovieTitle", title);
             updateCommand.Parameters.AddWithValue("@MovieCountry", newCountry);
             updateCommand.Parameters.AddWithValue("@MovieGenre", newGenre);

@@ -85,7 +85,7 @@ namespace MovieLibraryDL
         }
 
 
-        public void AddMovie(string movieTitle, string country, string genre, string releaseYear, string watched)
+        public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
             var newMovie = new Movie
             {
@@ -100,7 +100,7 @@ namespace MovieLibraryDL
             WriteJsonDataToFileMovieList();
         }
 
-        public bool DeleteMovie(string deleteMovie)
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
             ReadJsonDataFromFileMovieList();
             deleteMovie = deleteMovie.Trim();
@@ -125,7 +125,7 @@ namespace MovieLibraryDL
             return false;
         }
 
-        public Movie SearchMovie(string searchMovie)
+        public Movie SearchMovie(string userName, string searchMovie)
         {
             ReadJsonDataFromFileMovieList();
             foreach (var movie in movieList)
@@ -139,7 +139,7 @@ namespace MovieLibraryDL
         }
 
 
-        public Movie UpdateMovieDetails(string title, string newCountry, string newGenre, string newReleaseYear, string watched)
+        public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
             {
                 ReadJsonDataFromFileMovieList();
@@ -171,7 +171,7 @@ namespace MovieLibraryDL
             return null;
         }
 
-        public List<Movie> GetMovieList()
+        public List<Movie> GetMovieList(string userName)
         {
             ReadJsonDataFromFileMovieList();
             return movieList;
