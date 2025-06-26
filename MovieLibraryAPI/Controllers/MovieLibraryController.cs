@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Azure.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using MovieLibraryCommon;
-using MovieLibraryDL;
+using MovieLibraryBL;
 
-namespace MovieLibraryBL
+namespace MovieLibraryAPI.Controllers
 {
-    public class MovieLibraryProcess
+    [Route("Movie Library/[controller]")]
+    [ApiController]
+
+    public class MovieLibraryController : ControllerBase
     {
-
-
-        MovieLibraryData movielibrarydata = new MovieLibraryData();
+        MovieLibraryProcess movielibraryprocess = new MovieLibraryProcess();
 
         public static List<Genre> genremovieRecomendation = new List<Genre>
          {
@@ -29,42 +22,51 @@ namespace MovieLibraryBL
          new Genre { Name = "Romance", Movies = new List<string>{ "True In For Love", "On Your Wedding Day", "Titanic", "Pride & Prejudice", "Hello Stranger"} },
          };
 
+
+        [HttpGet("GetMovieTitle")]
         public Movie GetMovieTitle(string title)
         {
-            return movielibrarydata.GetMovieTitle(title);
+            return movielibraryprocess.GetMovieTitle(title);
         }
 
+        [HttpPatch("UpdateMovieDetails")]
         public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
-            return movielibrarydata.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
+            return movielibraryprocess.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
         }
 
+        [HttpPost("AddMovie")]
         public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            movielibrarydata.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
+            movielibraryprocess.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
         }
 
-        public bool DeleteMovie(string userName ,string deleteMovie)
+        [HttpDelete("DeleteMovie")]
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
-            return movielibrarydata.DeleteMovie(userName, deleteMovie);
+            return movielibraryprocess.DeleteMovie(userName, deleteMovie);
         }
 
+        [HttpGet("SearchMovie")]
         public Movie SearchMovie(string userName, string title)
         {
-            return movielibrarydata.SearchMovie(userName, title);
+            return movielibraryprocess.SearchMovie(userName, title);
         }
 
+        [HttpGet("GetMovieList")]
         public List<Movie> GetMovieList(string userName)
         {
-            return movielibrarydata.GetMovieList(userName);
+            return movielibraryprocess.GetMovieList(userName);
         }
 
+        [HttpGet("GetAllAccounts")]
         public List<Account> GetAllAccounts()
         {
-            var accounts = movielibrarydata.GetAllAccounts();
+            var accounts = movielibraryprocess.GetAllAccounts();
             return accounts;
         }
 
+        [HttpGet("ValidateAccount")]
         public bool ValidateAccount(string userName, string password)
         {
             {
@@ -79,6 +81,7 @@ namespace MovieLibraryBL
             }
         }
 
+        [HttpGet("GetMovieLibraryAccount")]
         public Account GetMovieLibraryAccount(string userName, string password)
         {
             var accounts = GetAllAccounts();
@@ -94,21 +97,23 @@ namespace MovieLibraryBL
             return foundAccount;
         }
 
+        [HttpPost("CreateAccount")]
         public void CreateAccount(string name, string userName, string password)
         {
-            movielibrarydata.CreateAccount(name, userName, password);
+            movielibraryprocess.CreateAccount(name, userName, password);
         }
 
-        public bool DeleteAccount (string userName, string password)
+        [HttpDelete("DeleteAccount")]
+        public bool DeleteAccount(string userName, string password)
         {
-            return movielibrarydata.DeleteAccount(userName, password);
+            return movielibraryprocess.DeleteAccount(userName, password);
         }
 
+        [HttpGet("GetGenreRecommendations")]
         public List<Genre> GetGenreRecommendations()
         {
             return genremovieRecomendation;
         }
-
 
     }
 }

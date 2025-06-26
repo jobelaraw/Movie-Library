@@ -8,14 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MovieLibraryAPI\**" />
     <Compile Remove="MovieLibraryBDL\**" />
     <Compile Remove="MovieLibraryCommon\**" />
     <Compile Remove="MovieLibraryHandleAccounts\**" />
     <Compile Remove="MovieLibraryUI\**" />
+    <EmbeddedResource Remove="MovieLibraryAPI\**" />
     <EmbeddedResource Remove="MovieLibraryBDL\**" />
     <EmbeddedResource Remove="MovieLibraryCommon\**" />
     <EmbeddedResource Remove="MovieLibraryHandleAccounts\**" />
     <EmbeddedResource Remove="MovieLibraryUI\**" />
+    <None Remove="MovieLibraryAPI\**" />
     <None Remove="MovieLibraryBDL\**" />
     <None Remove="MovieLibraryCommon\**" />
     <None Remove="MovieLibraryHandleAccounts\**" />

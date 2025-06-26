@@ -52,7 +52,7 @@ namespace MovieLibraryUI
                 if (genre != null)
                 {
                     string movies = string.Join("\n", genre.Movies);
-                    MessageBox.Show("Movies under" + " " + selectedGenre + ":" + "\n" + movies, "MOVIE RECOMMENDATION", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    MessageBox.Show("Movies under" + " " + selectedGenre + ":" + "\n\n" + movies, "MOVIE RECOMMENDATION", MessageBoxButtons.OK, MessageBoxIcon.None);
                 }
             }
         }

@@ -337,9 +337,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.Background;
             ClientSize = new Size(1046, 576);
-            Controls.Add(panelSignup);
             Controls.Add(panelBGLogo);
             Controls.Add(panelSignin);
+            Controls.Add(panelSignup);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SigninSignup";
             StartPosition = FormStartPosition.CenterScreen;
