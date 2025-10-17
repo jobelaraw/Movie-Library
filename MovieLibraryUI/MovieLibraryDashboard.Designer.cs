@@ -962,14 +962,14 @@
             BackColor = SystemColors.ControlDarkDark;
             BackgroundImage = Properties.Resources.Background;
             ClientSize = new Size(1030, 537);
-            Controls.Add(panelHome);
-            Controls.Add(panelManageLibrary);
             Controls.Add(panelDeleteAccount);
             Controls.Add(panelAddMovieDetails);
             Controls.Add(panelProfileDetails);
             Controls.Add(panelMovieList);
             Controls.Add(panelDeleteMovie);
             Controls.Add(panelUpdateMovieDetails1);
+            Controls.Add(panelHome);
+            Controls.Add(panelManageLibrary);
             FormBorderStyle = FormBorderStyle.None;
             Name = "MovieLibraryDashboard";
             StartPosition = FormStartPosition.CenterScreen;

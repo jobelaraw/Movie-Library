@@ -10,14 +10,16 @@ using System.Xml.Linq;
 using Azure.Identity;
 using MovieLibraryCommon;
 using MovieLibraryDL;
+using MovieLibraryEmail;
 
 namespace MovieLibraryBL
 {
     public class MovieLibraryProcess
     {
 
-
+        
         MovieLibraryData movielibrarydata = new MovieLibraryData();
+        MLEmail movielibraryemail = new MLEmail();
 
         public static List<Genre> genremovieRecomendation = new List<Genre>
          {
@@ -44,7 +46,7 @@ namespace MovieLibraryBL
             movielibrarydata.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
         }
 
-        public bool DeleteMovie(string userName ,string deleteMovie)
+        public bool DeleteMovie(string userName, string deleteMovie)
         {
             return movielibrarydata.DeleteMovie(userName, deleteMovie);
         }
@@ -67,16 +69,16 @@ namespace MovieLibraryBL
 
         public bool ValidateAccount(string userName, string password)
         {
+
+            var acc = GetMovieLibraryAccount(userName, password);
+
+            if (acc.Username != null)
             {
-                var acc = GetMovieLibraryAccount(userName, password);
-
-                if (acc.Username != null)
-                {
-                    return true;
-                }
-
-                return false;
+                return true;
             }
+
+            return false;
+
         }
 
         public Account GetMovieLibraryAccount(string userName, string password)
@@ -97,9 +99,10 @@ namespace MovieLibraryBL
         public void CreateAccount(string name, string userName, string password)
         {
             movielibrarydata.CreateAccount(name, userName, password);
+            movielibraryemail.SendEmail(name, userName, password);
         }
 
-        public bool DeleteAccount (string userName, string password)
+        public bool DeleteAccount(string userName, string password)
         {
             return movielibrarydata.DeleteAccount(userName, password);
         }

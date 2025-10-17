@@ -11,16 +11,19 @@
     <Compile Remove="MovieLibraryAPI\**" />
     <Compile Remove="MovieLibraryBDL\**" />
     <Compile Remove="MovieLibraryCommon\**" />
+    <Compile Remove="MovieLibraryEmail\**" />
     <Compile Remove="MovieLibraryHandleAccounts\**" />
     <Compile Remove="MovieLibraryUI\**" />
     <EmbeddedResource Remove="MovieLibraryAPI\**" />
     <EmbeddedResource Remove="MovieLibraryBDL\**" />
     <EmbeddedResource Remove="MovieLibraryCommon\**" />
+    <EmbeddedResource Remove="MovieLibraryEmail\**" />
     <EmbeddedResource Remove="MovieLibraryHandleAccounts\**" />
     <EmbeddedResource Remove="MovieLibraryUI\**" />
     <None Remove="MovieLibraryAPI\**" />
     <None Remove="MovieLibraryBDL\**" />
     <None Remove="MovieLibraryCommon\**" />
+    <None Remove="MovieLibraryEmail\**" />
     <None Remove="MovieLibraryHandleAccounts\**" />
     <None Remove="MovieLibraryUI\**" />
   </ItemGroup>
