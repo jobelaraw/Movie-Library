@@ -1,3 +1,4 @@
+using MovieLibraryBL;
 
 namespace MovieLibraryAPI
 {
@@ -13,6 +14,9 @@ namespace MovieLibraryAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<MovieLibraryEmail>();
+            builder.Services.AddScoped<MovieLibraryBL.MovieLibraryProcess>();
 
             var app = builder.Build();
 

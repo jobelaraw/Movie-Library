@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using Azure.Identity;
 using MovieLibraryCommon;
 using MovieLibraryDL;
-using MovieLibraryEmail;
+
 
 namespace MovieLibraryBL
 {
@@ -19,7 +19,12 @@ namespace MovieLibraryBL
 
         
         MovieLibraryData movielibrarydata = new MovieLibraryData();
-        MLEmail movielibraryemail = new MLEmail();
+        private readonly MovieLibraryEmail _movielibraryemail;
+
+        public MovieLibraryProcess(MovieLibraryEmail movielibraryemail)
+        {
+            _movielibraryemail = movielibraryemail;
+        }
 
         public static List<Genre> genremovieRecomendation = new List<Genre>
          {
@@ -99,7 +104,7 @@ namespace MovieLibraryBL
         public void CreateAccount(string name, string userName, string password)
         {
             movielibrarydata.CreateAccount(name, userName, password);
-            movielibraryemail.SendEmail(name, userName, password);
+            _movielibraryemail.SendEmail(name, userName, password);
         }
 
         public bool DeleteAccount(string userName, string password)

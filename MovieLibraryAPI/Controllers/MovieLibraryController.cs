@@ -10,7 +10,12 @@ namespace MovieLibraryAPI.Controllers
 
     public class MovieLibraryController : ControllerBase
     {
-        MovieLibraryProcess movielibraryprocess = new MovieLibraryProcess();
+        private readonly MovieLibraryBL.MovieLibraryProcess _movielibraryprocess;
+
+        public MovieLibraryController(MovieLibraryProcess movielibraryprocess)
+        {
+            _movielibraryprocess = movielibraryprocess;
+        }
 
         public static List<Genre> genremovieRecomendation = new List<Genre>
          {
@@ -26,43 +31,43 @@ namespace MovieLibraryAPI.Controllers
         [HttpGet("GetMovieTitle")]
         public Movie GetMovieTitle(string title)
         {
-            return movielibraryprocess.GetMovieTitle(title);
+            return _movielibraryprocess.GetMovieTitle(title);
         }
 
         [HttpPatch("UpdateMovieDetails")]
         public Movie UpdateMovieDetails(string userName, string title, string newCountry, string newGenre, string newReleaseYear, string watched)
         {
-            return movielibraryprocess.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
+            return _movielibraryprocess.UpdateMovieDetails(userName, title, newCountry, newGenre, newReleaseYear, watched);
         }
 
         [HttpPost("AddMovie")]
         public void AddMovie(string userName, string movieTitle, string country, string genre, string releaseYear, string watched)
         {
-            movielibraryprocess.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
+            _movielibraryprocess.AddMovie(userName, movieTitle, country, genre, releaseYear, watched);
         }
 
         [HttpDelete("DeleteMovie")]
         public bool DeleteMovie(string userName, string deleteMovie)
         {
-            return movielibraryprocess.DeleteMovie(userName, deleteMovie);
+            return _movielibraryprocess.DeleteMovie(userName, deleteMovie);
         }
 
         [HttpGet("SearchMovie")]
         public Movie SearchMovie(string userName, string title)
         {
-            return movielibraryprocess.SearchMovie(userName, title);
+            return _movielibraryprocess.SearchMovie(userName, title);
         }
 
         [HttpGet("GetMovieList")]
         public List<Movie> GetMovieList(string userName)
         {
-            return movielibraryprocess.GetMovieList(userName);
+            return _movielibraryprocess.GetMovieList(userName);
         }
 
         [HttpGet("GetAllAccounts")]
         public List<Account> GetAllAccounts()
         {
-            var accounts = movielibraryprocess.GetAllAccounts();
+            var accounts = _movielibraryprocess.GetAllAccounts();
             return accounts;
         }
 
@@ -100,13 +105,13 @@ namespace MovieLibraryAPI.Controllers
         [HttpPost("CreateAccount")]
         public void CreateAccount(string name, string userName, string password)
         {
-            movielibraryprocess.CreateAccount(name, userName, password);
+            _movielibraryprocess.CreateAccount(name, userName, password);
         }
 
         [HttpDelete("DeleteAccount")]
         public bool DeleteAccount(string userName, string password)
         {
-            return movielibraryprocess.DeleteAccount(userName, password);
+            return _movielibraryprocess.DeleteAccount(userName, password);
         }
 
         [HttpGet("GetGenreRecommendations")]
